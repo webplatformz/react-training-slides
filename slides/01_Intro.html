@@ -26,8 +26,8 @@
 <div class="reveal">
     <div class="slides">
         <section class="deck-slide">
-            <h1>Example Content <br />
-            01 Intro</h1>
+            <h1>React <br/>
+                01 Intro</h1>
         </section>
         <section>
             <h2>About us</h2>
@@ -41,7 +41,7 @@
                     <h3 class="margin-top">Nicolas Oeschger</h3>
                 </div>
             </div>
-                <p>Web developers working for Zühlke since 2013</p>
+            <p>Web developers working for Zühlke since 2013</p>
         </section>
         <section>
             <h2>Schedule</h2>
@@ -63,58 +63,76 @@
             <p>made with <a href="https://revealjs.com/#/">reveal.js</a></p>
         </section>
         <section>
-            <h2>JavaScript - WAT?!</h2>
-            <video width="70%" controls>
-                <source src="../img/wat.mp4" type="video/mp4">
-            </video>
-        </section>
-        <section>
             <section>
-                <h2>What is JavaScript?</h2>
+                <h2>A quick overview</h2>
             </section>
             <section>
-                <h2>EcmaScript / ES</h2>
-                <p>The scripting language specification which is implemented by <span class="code">JavaScript</span>. It
-                    is standardized by the organization
-                    <span class="code">Ecma International</span>.</p>
-                <p></p>
-            </section>
-            <section>
-                <h2>Ecma TC39 Committee</h2>
-                <p>All new proposals are considered by the Ecma TC39 committee.
-                    They go through the following process before they are included in the Ecma Standard <a target="_blank" href="https://github.com/tc39/proposals">Link 👉🏼</a></p>
-                <ol>
-                    <li>Proposal</li>
-                    <li>Draft</li>
-                    <li>Candidate</li>
-                    <li>Finished</li>
-                </ol>
-            </section>
-            <section>
-                <img src="../img/es-timeline.png" />
-            </section>
-            <section>
-                <h2>Language Characteristics</h2>
+                <h2>History</h2>
                 <ul>
-                    <li>Dynamic</li>
-                    <li>Weakly Typed</li>
-                    <li>"Truly" Object-Oriented</li>
-                    <li>Interpreted (not necessarily compiled)</li>
+                    <li>Created in 2011 at facebook</li>
+                    <li>Made open source in 2013</li>
                 </ul>
             </section>
+            <section>
+                <img src="../img/react/popularity-comparison.png"/>
+            </section>
+            <section>
+                <img src="../img/react/react-stats.png"/>
+            </section>
+            <section>
+                <p>React is a <span class="warn">library</span>, not a <span class="warn">framework</span>.</p>
+                <p>It handles <span class="warn">rendering</span> and <span class="warn">state</span>, but leaves
+                    other things like <span class="warn">ajax</span> and <span class="warn">routing</span> up to you.
+                </p>
+                <p>Fortunately, thanks to the huge community, there are always many options to choose from.</p>
+            </section>
         </section>
         <section>
             <section>
-                <h2>How & Where does it run?</h2>
-                <h3>The Browser</h3>
-                <p>The most common use of JavaScript is to add client-side behavior to HTML pages: The browser
-                    interprets and runs the JavaScript code.</p>
-                <p>Demo in the Console.</p>
+                <h2>A simple React Component</h2>
             </section>
             <section>
-                <h2>How & Where does it run?</h2>
-                <h3>NodeJS</h3>
-                <p>JavaScript can also be used on the server-side with NodeJS, which is built on Chrome's V8 Engine.</p>
+                <h2>Setup</h2>
+                <pre>
+                    <code class="hljs" data-trim contenteditable data-noescape>
+                        $ mkdir react-component && cd react-component
+                        $ touch index.html
+                        $ touch MyComponent.js
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Include React & Your Component</h2>
+                <p>index.html</p>
+                <pre>
+                    <code class="hljs html" data-trim contenteditable data-noescape>
+                        &lt;div id="container"&gt;&lt;/div&gt;
+
+                        &lt;script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin&gt;&lt;/script&gt;
+                        &lt;script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin&gt;&lt;/script&gt;
+                        &lt;script src="MyComponent.js"&gt;&lt;/script&gt;
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Write your component</h2>
+                <p>MyComponent.js</p>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+function MyComponent() {
+    return React.createElement(
+        'h1',
+        {},
+        'Hello Component!'
+    );
+}
+
+const container = document.querySelector('#container');
+const element = React.createElement(MyComponent);
+
+ReactDOM.render(element, container);
+                    </code>
+                </pre>
             </section>
         </section>
         <section class="deck-slide">
@@ -133,13 +151,13 @@
 
         // More info https://github.com/hakimel/reveal.js#dependencies
         dependencies: [
-            { src: '../plugin/markdown/marked.js' },
-            { src: '../plugin/markdown/markdown.js' },
-            { src: '../plugin/notes/notes.js', async: true },
+            {src: '../plugin/markdown/marked.js'},
+            {src: '../plugin/markdown/markdown.js'},
+            {src: '../plugin/notes/notes.js', async: true},
             {
                 src: '../plugin/highlight/highlight.js', async: true, callback: function () {
-                hljs.initHighlightingOnLoad();
-            }
+                    hljs.initHighlightingOnLoad();
+                }
             }
         ]
     });
