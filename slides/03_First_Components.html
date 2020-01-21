@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>02 Your First Components | React</title>
+    <title>03 Your First Components | React Essentials</title>
 
     <link rel="icon" href="../img/zuehlke_logo.jpg">
     <link rel="stylesheet" href="../css/reveal.css">
@@ -26,7 +26,7 @@
 <div class="reveal">
     <div class="slides">
         <section class="deck-slide">
-            <h1>React<br>02 Your First Components</h1>
+            <h1>React Essentials<br>03 Your First Components</h1>
         </section>
         <section>
             <section>
@@ -109,6 +109,20 @@
                 <p>We will implement all of this in <span class="code">App.tsx</span> for now.</p>
             </section>
             <section>
+                <h2>Hints</h2>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        let name = '';
+
+                        &lt;input onChange={(event) => ...} /&gt;
+
+                        &lt;span&gt;hello, {name || 'stranger'}&lt;/span&gt;
+                    </code>
+                </pre>
+                <p>Does the component display the updated name correctly?</p>
+                <p>How does React know it should rerender?</p>
+            </section>
+            <section>
                 <h2>Introducing State</h2>
                 <p>Every component can have its own <span class="warn">state</span>.</p>
                 <p>The component is always derived from its <span class="warn">state</span> - there is a unidirectional data flow.</p>
@@ -117,11 +131,57 @@
                 <img width="80%" src="../img/react/state-flow.png" />
             </section>
             <section>
-                <p>TODO show how simply changing a value in the component (e.g. name = "John") does not do anything ?</p>
+                <h2>The useState hook</h2>
+                <p>You must use the <span class="code">[state, setState]</span> hooks to tell React that
+                something has changed and the component needs to be rerendered.</p>
             </section>
             <section>
                 <h2>The useState hook</h2>
-                <p>TODO should we go into setState in class components first or jump right into the hook?</p>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        function MyComponent() {
+                            const [name, setName] = useState('');
+
+                            function onUpdateName(name) {
+                                setName(name);
+                            }
+
+                            return (
+                                ...
+                            )
+                        }
+                    </code>
+                </pre>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>Displaying the user name in the header</h2>
+                <p>Since our header is a separate component, we need a way to pass <span class="code">name</span> to it.</p>
+            </section>
+            <section>
+                <h2>Introducing props</h2>
+                <pre>
+                    <code class="hljs html" data-trim contenteditable data-noescape>
+                        &lt;Header name={name} /&gt;
+                    </code>
+                </pre>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        function Header(props) {
+                            return &lt;h1&gt;{props.name}&lt;/h1&gt;;
+                        }
+                    </code>
+                </pre>
+                <p>Refactor your App to display the name in the header instead of the content.</p>
+            </section>
+            <section>
+                <p>Let's introduce a confirm button. Only update the name when that button is clicked.</p>
+                <pre>
+                    <code class="hljs html" data-trim contenteditable data-noescape>
+                        &lt;button onClick={() =&gt; ...}&gt;Confirm&lt;/button&gt;
+                    </code>
+                </pre>
             </section>
         </section>
         <section class="deck-slide">
