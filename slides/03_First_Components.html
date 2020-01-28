@@ -184,6 +184,54 @@
                 </pre>
             </section>
         </section>
+        <section>
+            <section>
+                <h2>Testing</h2>
+                <p>jest && react-testing-library</p>
+            </section>
+            <section>
+                <p>Testing library's philosophy</p>
+                <p>Test components from a user's perspective and don't test implementation details.</p>
+            </section>
+            <section>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        // don't
+                        component.instance().addItem('MacBook Pro');
+                        expect(component.state.shoppingCart.length).toBe(1);
+                    </code>
+                </pre>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        // do
+                        component.find('.add-item-button').click();
+                        expect(component.find('.cart-item').length).toBe(1);
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>RTL API</h2>
+                <pre>
+                    <code class="hljs html" data-trim contenteditable data-noescape>
+                        &lt;button data-testid="confirm"&gt;Confirm&lt;/button&gt;
+                        &lt;input data-testid="input" /&gt;
+                        &lt;span data-testid="display"&gt;...&lt;/span&gt;
+                    </code>
+                </pre>
+                <pre>
+                    <code class="hljs js html" data-trim contenteditable data-noescape>
+                        const component = render(&lt;App /&gt;);
+                        const input = component.getByTestId('input');
+                        const btn = component.getByTestId('confirm')
+                        const display = component.getByTestId('display');
+
+                        fireEvent.change(input, 'John');
+                        fireEvent.click(btn);
+                        expect(display.innerHTML).toBe('John');
+                    </code>
+                </pre>
+            </section>
+        </section>
         <section class="deck-slide">
             <h1>Questions?</h1>
         </section>
