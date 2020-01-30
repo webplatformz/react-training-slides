@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>05 Pokebag | React Essentials</title>
+
+    <link rel="icon" href="../img/zuehlke_logo.jpg">
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/zuehlke.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/css/monokai.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? '../css/print/pdf.css' : '../css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section class="deck-slide">
+            <h1>React Essentials<br>05 Pokebag</h1>
+        </section>
+        <section>
+            <section>
+                <h2>Pokebag</h2>
+                <ul>
+                    <li>Display the bag of caught Pokemon on the right of the page</li>
+                    <li>When the user correctly guesses the Pokemon, add it to the bag</li>
+                    <li>Do not allow adding the same Pokemon more than once</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Let's try some TDD!</h2>
+                <p>What could be a simple test case to start with?</p>
+                <p class="fragment">How about the empty bag?</p>
+            </section>
+            <section>
+                <h2>TDD 1</h2>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        const component = render(...)
+
+                        expect(
+                            component.getByText('No Pokemons yet.')
+                        ).not.toBeNull();
+                    </code>
+                </pre>
+                <p>...make it green!</p>
+            </section>
+            <section>
+                <h2>TDD 2</h2>
+                <p>Add some props to the component</p>
+                <pre>
+                    <code class="hljs" data-trim contenteditable data-noescape>
+                        render(&lt;PokeBag pokemons={['a', 'b']} /&gt;);
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Rendering a list</h2>
+                <p>Remember, you can use regular JS inside JSX.</p>
+                <pre>
+                    <code class="hljs html" data-trim contenteditable data-noescape>
+                    &lt;ul&gt;
+                        {pokemons.map(p =&gt; (
+                            &lt;li&gt;{pokemon}&lt;/li&gt;
+                        ))}
+                    &lt;/ul&gt;
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Check out the console</h2>
+                <img src="../img/react/key-warning.png" width="150%"/>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>Virtual DOM & Reconciliation</h2>
+                <p>or simply <span class="warn">change detection (CD)</span></p>
+            </section>
+            <section>
+                <img src="../img/react/virtual-dom.png" />
+            </section>
+            <section>
+                <h2>Diffing two trees</h2>
+                <p>This is an <span class="warn">O(n3)</span> algorithm, which is not suitable for web applications.</p>
+                <p>React uses heuristics to make it an <span class="warn">O(n)</span> algorithm.</p>
+                <p><a href="https://reactjs.org/docs/reconciliation.html" target="_blank">Details</a></p>
+            </section>
+            <section>
+                <h2>Keys</h2>
+                <p>The heuristic relevant for us is the <span class="code">key</span> attribute.</p>
+                <p>It lets React know if an element is still the same or not.</p>
+            </section>
+            <section>
+                <pre>
+                    <code class="hljs html" data-trim contenteditable data-noescape>
+                    &lt;ul&gt;
+                        {pokemons.map(p =&gt; (
+                            &lt;li key={pokemon}&gt;{pokemon}&lt;/li&gt;
+                        ))}
+                    &lt;/ul&gt;
+                    </code>
+                </pre>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>Wiring up</h2>
+                <p>Add the new (and tested) pokebag component to the App and add Pokemons to it on a correct guess.</p>
+                <p>Where do we need to put the <span class="code">state</span> containing the Pokemon?</p>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>PokeBagList</h2>
+                <p>The <span class="code">PokeBag</span> component doesn't look very nice. Let's extract a component for the List.</p>
+                <pre>
+                    <code class="hljs html" data-trim contenteditable data-noescape>
+                    &lt;h3&gt;Poke Bag&lt;/h3&gt;
+                    &lt;PokeBagList pokemons={pokemons} /&gt;
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Prop drilling</h2>
+                <img src="../img/react/prop-drilling.png" width="30%"/>
+            </section>
+            <section>
+                <h2>Introducing the Context API</h2>
+                <p>Context provides a way to pass data through the component tree without having to pass props down manually at every level.</p>
+            </section>
+            <section>
+                <h2>Defining the Context</h2>
+                <p><span class="code">App.tsx</span></p>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                    const PokeBagContext = React.createContext({
+                      pokemons: [],
+                      addPokemon: () =&gt; {},
+                    });
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Context Provider</h2>
+                <p>Wrap your component in <span class="code">App.tsx</span></p>
+                <pre>
+                    <code class="hljs html" data-trim contenteditable data-noescape>
+                    &lt;PokeBagContext.Provider
+                      value={{
+                        pokemons: ...,
+                      }}
+                    &gt;
+                        ...
+                    &lt;/PokeBagContext.Provider&gt;
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>The useContext hook</h2>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                    const { pokemons } = useContext(PokeBagContext);
+                    </code>
+                </pre>
+                <p>We now no longer need to keep passing props to the components.</p>
+            </section>
+        </section>
+        <section class="deck-slide">
+            <h1>Questions?</h1>
+        </section>
+    </div>
+</div>
+
+<script src="../js/reveal.js"></script>
+
+<script>
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            {src: '../plugin/markdown/marked.js'},
+            {src: '../plugin/markdown/markdown.js'},
+            {src: '../plugin/notes/notes.js', async: true},
+            {
+                src: '../plugin/highlight/highlight.js', async: true, callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+</script>
+</body>
+</html>
