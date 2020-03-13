@@ -28,435 +28,283 @@
         <section class="deck-slide">
             <h1>React Essentials<br>04 Building the Quiz</h1>
         </section>
+        
+        <!-- 01 Tools -->
         <section>
-            <!-- Routing -->
+            <section>
+                <h2>Tools</h2>
+                <ul>
+                    <li>Prettier</li>
+                    <li>ESLint</li>
+                    <li>browserslist</li>
+                    <li>React Dev Tools</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Prettier</h2>
+                <p>Your code is always consistent, as is the code from the rest of your team. No more bikeshedding!</p>
+                <p>
+                    <a href="https://prettier.io/playground/" target="_blank" rel="noopener noreferrer">
+                        See it in action
+                    </a>
+                </p>
+            </section>
+            <section>
+                <p>Lets install it either locally <span class="code">npm i -D prettier</span> or run it with <span class="code">npx prettier</span>.</p>
+                <p>Add the plugin for your IDE
+                    <a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode" target="_blank" rel="noopener noreferrer">
+                        VS Code
+                    </a>, 
+                    <a href="https://plugins.jetbrains.com/plugin/10456-prettier"target="_blank" rel="noopener noreferrer">
+                        JetBrains
+                    </a>
+                </p>
+            </section>
+            <section>
+                <p>Prettier is heavily opinionated. Luckily there are a lot of
+                    <a href="https://prettier.io/docs/en/options.html" target="_blank" rel="noopener noreferrer">
+                        options
+                    </a>
+                    to customize it to your liking</p>
+                <p>Add a <span class="code">prettier.config.js</span> file to your project</p>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        module.exports = {
+                            singleQuote: true,
+                            trailingComma: 'all',
+                            quoteProps: 'consistent',
+                          }
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <p>Add a npm script to the <span class="code">package.json</span>.</p>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        "scripts": {
+                            "pretty": "prettier --write \"src/**/*.{js,json,
+                                yml,yaml,css,scss,ts,tsx,md}\"",
+                        },
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>ESLint</h2>
+                <p>Enforce some code styles which pertain more to usage.</p>
+                <p>Run <span class="code">npm i -D eslint eslint-config-prettier</span> to install it.</p>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        "scripts": {
+                            "lint": "eslint \"src/**/*.{js,ts,tsx}\" --quiet",
+                        },
+                    </code>
+                </pre>
+                <p>And again add the plugin for your IDE:
+                    <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint" target="_blank" rel="noopener noreferrer">
+                        VS Code
+                    </a>
+                </p>
+            </section>
+            <section>
+                <p>ESLint has a ton of (predefined) rules, ranging from very loos to super strict
+                    (<a href="https://www.npmjs.com/package/eslint-config-airbnb" target="_blank" rel="noopener noreferrer">airbnb</a>).
+                </p>
+                <p>Create React App comes with some predefined rules.</p>
+            </section>
+            <section>
+                <h2>browserslist</h2>
+            </section>
+            <section>
+                <h2>Dev Tools</h2>
+                <p>React has wonderful dev tools that the core team maintains.</p>
+                <p>They're available for both 
+                    <a href="https://addons.mozilla.org/en-US/firefox/addon/react-devtools/" target="_blank" rel="noopener noreferrer">
+                        Chromium-based
+                    </a>
+                    browsers and
+                    <a href="https://addons.mozilla.org/en-US/firefox/addon/react-devtools/" target="_blank" rel="noopener noreferrer">
+                        Firefox
+                    </a>
+                </p>
+            </section>
+            <section>
+                <ul>
+                    <li>Explore React app like a DOM tree</li>
+                    <li>Modify state and props on the fly</li>
+                    <li>Tease out performance problems</li>
+                    <li>Programmatically manipulate components</li>
+                </ul>
+            </section>
+        </section>
+        <!--
+            Exercise:
+            - install prettier
+            - install dev tools
+        -->
+
+        <!-- 02 Routing -->
+        <section>
             <section>
                 <h2>Routing</h2>
-                <p>React Router</p>
-                <p>Reads state from the URL and syncs back to it</p>
+                <h4>with React Router</h4>
+                <p>Reads state from the URL and syncs back to it.</p>
+                <p>And as always it's components all the way (and some hooks).</p>
+            </section>
+            <section>
+                <h2>Basics Components</h2>
                 <ul>
-                    <li><span class="code">Null</span></li>
-                    <li><span class="code">Undefined</span></li>
-                    <li><span class="code">Boolean</span></li>
-                    <li><span class="code">Number</span></li>
-                    <li><span class="code">String</span></li>
-                    <li><span class="code">Symbol</span> (since ES6)</li>
+                    <li>BrowserRouter</li>
+                    <li>Switch</li>
+                    <li>Route</li>
+                    <li>Redirect</li>
+                    <li>Link</li>
                 </ul>
             </section>
             <section>
-                <h2>Types</h2>
-                <p>Everything else is considered an <span class="code">object</span></p>
+                <h2>Putting it all together</h2>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        const App = () => (
+                          &lt;Router&gt
+                            &lt;Header /&gt
+                            &lt;Switch&gt
+                              &lt;Route exact path="/register"&gt
+                                  &lt;Register /&gt
+                              &lt;/Route&gt
+                              &lt;Route exact path="/quiz""&gt
+                                  &lt;PokeQuiz /&gt
+                              &lt;/Route&gt
+                              &lt;Redirect from="/" to="register" /&gt
+                            &lt;/Switch&gt
+                          &lt;/Router&gt
+                        );
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Navigate between pages</h2>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        const Header = () => (
+                          &lt;div&gt
+                            &lt;Link to="/register"&gtRegister&lt;/Link&gt
+                            &lt;Link to="/"&gtQuiz&lt;/Link&gt
+                          &lt;/div&gt
+                        );
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Hooks</h2>
+                <ul>
+                    <li><h4>useHistory</h4><p>gives you access to the history instance that you may use to navigate.</p></li>
+                    <li><h4>useLocation</h4><p>think about it like a useState that returns a new location whenever the URL changes.</p></li>
+                    <li><h4>useParams</h4><p>returns an object of key/value pairs of URL parameters.</p></li>
+                </ul>
             </section>
         </section>
+        <!--
+            Exercise:
+            - create quiz page
+            - create header navigation
+        -->
+
+        <!-- 03 Asynchronous API Requests -->
         <section>
-            <!-- Data fetching -->
             <section>
-                <h2>Data fetching</h2>
-                <ul>
-                    <li>There are two different types of variables <span class="code">var</span>, <span
-                            class="code">let</span></li>
-                    <li>And a constant type <span class="code">const</span></li>
-                </ul>
+                <h2>Asynchronous API Requests</h2>
+            </section>
+            <section>
+                <h2>The useEffect hook</h2>
+                <p>By using this Hook, you tell React that your functional component needs to perform some side effects after render.</p>
                 <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        var x = 42;
-                        let y = 42; // ES6
-                        const z = 42; // ES6
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        useEffect(() => {
+                            console.log("Hello everyone")
+                        });
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>When does the effect run?</h2>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        useEffect(() => {
+                            console.log(`Hello ${name}`)
+                        }, [name]);
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Effects with cleanup</h2>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        useEffect(() => {
+                            console.log("Hello everyone")
+                            return () => {
+                                console.log("Goodbye")
+                            }
+                        }, []);
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Lets fetch some Pokemon</h2>
+                <pre>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        const PokeQuiz = () => {
+                            const [pokemonList, setPokemonList] = useState([]);
+                            const URL = 'https://pokeapi.co/api/v2/pokemon?limit=50';
+                          
+                            useEffect(() => {
+                              (async () => {
+                                const response = await fetch(URL);
+                                const pokemonList = response.json().results;
+                                setPokemonList(pokemonList);
+                              })();
+                            }, []);
+                          
+                            return pokemonList.map(pokemon => <div>{pokemon.name}</div>);
+                        };
                     </code>
                 </pre>
             </section>
         </section>
+        <!--
+            Exercise (build the quiz):
+            - get and set new question
+            - set answer
+            - display outcome of answer
+        -->
+
+        <!-- 04 Custom Hooks -->
         <section>
-            <!-- Syntax -->
             <section>
-                <h2>Syntax</h2>
-                <h3>Comments</h3>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        // line comment
-
-                        /*
-                            block comment
-                        */
-                    </code>
-                </pre>
+                <h2>Custom Hooks</h2>
+                <p>Building your own Hooks lets you extract component logic into reusable functions.</p>
             </section>
             <section>
-                <h2>Syntax</h2>
-                <h3>Semicolons</h3>
-                <ul>
-                    <li>Semicolons are inserted automatically by the interpreter (Known as ASI - Automatic Semicolon
-                        Insertion)
-                    </li>
-                    <li>However, you should set them yourself to avoid unexpected behaviour</li>
-                </ul>
-            </section>
-            <section>
-                <h2>Syntax</h2>
-                <h3>Case sensitivity</h3>
-                <p>Variable names are case sensitive</p>
+                <h2>Level up to Pokemaster</h2>
+                <p>Enable hard mode with <span class="code">/quiz?level=pokemaster</span></p>
                 <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        let aB = 'test';
-
-                        console.log(ab);
-
-                        <span class="fragment">// Uncaught ReferenceError: ab is not defined</span>
+                    <code class="hljs js" data-trim contenteditable data-noescape>
+                        const useQuery = () =>
+                            new URLSearchParams(useLocation().search);
                     </code>
                 </pre>
             </section>
         </section>
-        <section>
-            <!-- Flow Control -->
-            <section>
-                <h2>Flow Control</h2>
-                <h3>If / Else</h3>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        if (condition) {
-                            doAwesomeStuff();
-                        } else if (otherCondition) {
-                            doMoreAwesomeStuff();
-                        } else {
-                            doNothing();
-                        }
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Flow Control</h2>
-                <h3>For</h3>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        for (let i = 0; i < 10; i++) {
-                            console.log(i);
-                        }
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Flow Control</h2>
-                <h3>While / Do ... While</h3>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        while (condition) {
-                            doAwesomeStuff();
-                        }
+        <!--
+            Note:
+            - show dev tools with custom hooks
 
-                        do {
-                            doAwesomeStuff();
-                        } while(condition);
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Flow Control</h2>
-                <h3>Switch</h3>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        switch(expr) {
-                            case 1:
-                                handleCase1();
-                                break;
-                            default:
-                                handleDefaultCase();
-                        }
-                    </code>
-                </pre>
-            </section>
-        </section>
-        <section>
-            <!-- Operators & Coercion -->
-            <section>
-                <h2>Operators &amp; Coercion</h2>
-                <h3>Definition of &laquo;Coercion&raquo;</h3>
-                <p>In computer science, type conversion, typecasting, and coercion are different ways of, implicitly or
-                    explicitly, changing an entity of one data type into another.</p>
-                <p>Coercion /kəʊˈəːʃ(ə)n/ &rightarrow; der Zwang, die Nötigung</p>
-            </section>
-            <section>
-                <h2>Operators &amp; Coercion</h2>
-                <h3>What does this mean in practice?</h3>
-                <p>If the operands of an operator are of different types, one of them will be converted. The
-                    <a href="http://delapouite.com/ramblings/javascript-coercion-rules.html" target="_blank">coercion
-                        rules</a> are quite extensive.</p>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        0 == true; // false because true is converted to 1
-                        1 == "1"; // true because 1 is converted to "1"
-                        let x = 0 + ""; // x will be a string "0"
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Operators &amp; Coercion</h2>
-                <h3>Loose vs. Strict Equals</h3>
-                <ul>
-                    <li>Loose equals <span class="code">==</span> uses coercion</li>
-                    <li>Strict equals <span class="code">===</span> doesn't change the types</li>
-                </ul>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        1 == "1"; // true
-                        1 === "1"; // false
-                    </code>
-                </pre>
-                <div class="fragment tip">In your daily life, use strict equals only!</div>
-            </section>
-            <section>
-                <h2>Operators &amp; Coercion</h2>
-                <h3>Logical Operators</h3>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        true && 42; // Returns second expression --> 42
-                        false || 42 || true; // Returns first "true" expression
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Try it yourself</h2>
-                <p>Open the console (F12 on windows, CMD + alt + I on Mac) and play around!</p>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        1 == "1"
-                        1 === true
-                        NaN === NaN
-                        undefined == undefined
-                        // be creative!
-                    </code>
-                </pre>
-            </section>
-        </section>
-        <section>
-            <!-- Truthy & Falsy -->
-            <section>
-                <h2>Truthy &amp; Falsy</h2>
-                <ul>
-                    <li>Due to coercion everything can be converted to a <span class="warn">boolean</span></li>
-                    <li>Therefore every value is either <span class="warn">truthy</span> or <span
-                            class="warn">falsy</span></li>
-                </ul>
-            </section>
-            <section>
-                <h2>Truthy &amp; Falsy</h2>
-                <h3>The six falsy cases</h3>
-                <ul>
-                    <li><span class="code">false</span></li>
-                    <li><span class="code">0</span> (zero)</li>
-                    <li><span class="code">''</span> or <span class="code">""</span> (empty string)</li>
-                    <li><span class="code">null</span></li>
-                    <li><span class="code">undefined</span></li>
-                    <li><span class="code">NaN</span> (Not a Number, e.g. the result of 1/0)</li>
-                </ul>
-            </section>
-            <section>
-                <h2>Truthy &amp; Falsy</h2>
-                <p>Everything else is <span class="warn">truthy</span>!</p>
-                <p>Makes it easy to check whether a variable is present:</p>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        let x = 'Hello World';
-                        if (x) { // Truthy
-                            doSomething();
-                        }
+            Exercise:
+            - build the useLevel hook (return isBeginner and toggleLevel)
+            - use the hook to add a toggle button and change the brightness on the image
+        -->
 
-                        let y = 0;
-                        if (y) { // Falsy
-                            doSomething();
-                        }
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Truthy &amp; Falsy</h2>
-                <p>Shorthand for safe variable declaration:</p>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        let x = undefined;
 
-                        let y = x || 'default';
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Truthy &amp; Falsy</h2>
-                <p>Try it yourself!</p>
-                <p data-height="330" data-editable="true" data-theme-id="0" data-slug-hash="dJMGjL"
-                   data-default-tab="js,result"
-                   data-user="enpayne" data-embed-version="2" data-pen-title="Truthy & Falsy" class="codepen">See the
-                    Pen <a href="https://codepen.io/enpayne/pen/dJMGjL/">Truthy & Falsy</a> by Nicolas Oeschger (<a
-                            href="https://codepen.io/enpayne">@enpayne</a>) on <a href="https://codepen.io">CodePen</a>.
-                </p>
-                <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-            </section>
-        </section>
-        <section>
-            <!-- Strict Mode -->
-            <section>
-                <h2>Strict Mode</h2>
-                <div class="badge-container">
-                    <span class="badge es5"></span>
-                </div>
-                <ul>
-                    <li>Opts in a restricted variant of JavaScript</li>
-                    <li>Not a subset but <span class="warn">different</span> semantics</li>
-                    <li>Strict mode and non-strict mode code can coexist</li>
-                    <li>Not supported by all browsers</li>
-                </ul>
-            </section>
-            <section>
-                <h2>Strict Mode</h2>
-                <div class="badge-container">
-                    <span class="badge es5"></span>
-                </div>
-                <ol>
-                    <li>Eliminates some JavaScript silent errors<br>&rightarrow; Throw errors</li>
-                    <li>Fixes mistakes that make it difficult for JavaScript engines to perform optimizations<br>&rightarrow;
-                        Runs faster
-                    </li>
-                    <li>Prohibits some syntax likely to be defined in future versions of ECMAScript</li>
-                </ol>
-            </section>
-            <section>
-                <h2>Strict Mode</h2>
-                <h3>How to invoke it?</h3>
-                <p>For scripts:</p>
-                <div class="badge-container">
-                    <span class="badge es5"></span>
-                </div>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        // Whole-script strict mode syntax
-                        'use strict';
-                        var v = "Hi! I'm a strict mode script!";
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Strict Mode</h2>
-                <h3>How to invoke it?</h3>
-                <p>For functions:</p>
-                <div class="badge-container">
-                    <span class="badge es5"></span>
-                </div>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        function strict() {
-                            'use strict';
-                            return "Hi!  I'm a strict mode function!";
-                        }
-
-                        function notStrict() {
-                            return "I'm not strict.";
-                        }
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Strict Mode</h2>
-                <h3>Further information</h3>
-                <div class="badge-container">
-                    <span class="badge es5"></span>
-                </div>
-                <p>If you want to learn more about what <span class="code">strict mode</span> is doing exactly, we
-                    recommend reading
-                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode"
-                       target="_blank">this</a> article.</p>
-            </section>
-        </section>
-        <section>
-            <!-- Strings -->
-            <section>
-                <h2>Strings</h2>
-                <h3>Definition</h3>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        let aString = "I'm a string";
-                        let anotherString = '"Me" too!';
-                    </code>
-                </pre>
-                <p><span class="code">""</span> and <span class="code">''</span> are equivalent. It only depends which
-                    is more convenient regarding the content of the string.<br>E.g. <span class="code">"Don't"</span>
-                    vs. <span class="code">'Don\'t'</span></p>
-            </section>
-            <section>
-                <h2>Strings</h2>
-                <h3>Concatenation</h3>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        let a = "I'm a";
-                        let b = 'string!';
-                        let c = a + ' ' + c;
-                        <span class="fragment">// I'm a string!</span>
-
-                        <span class="fragment">let d = a.concat(' ', b);</span>
-                        <span class="fragment">// I'm a string!</span>
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Strings</h2>
-                <h3>Template Literals</h3>
-                <div class="badge-container">
-                    <span class="badge es6"></span>
-                </div>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        let x = 'String';
-                        let aString = `I'm a "${x}" too!`;
-
-                        <span class="fragment">// I'm a "String" too!</span>
-                    </code>
-                </pre>
-                <p>You can use single and double quotes as well as variables without concatenation using ES6 <span
-                        class="warn">template literals</span> with back ticks (<span class="code">``</span>).</p>
-            </section>
-            <section>
-                <h2>Strings</h2>
-                <h3>Template Literals II</h3>
-                <div class="badge-container">
-                    <span class="badge es6"></span>
-                </div>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        let aString = `It's even possible
-                        to add line breaks!`;
-
-                        <span class="fragment">// It's even possible<br>// to add line breaks!</span>
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Strings</h2>
-                <h3>Template Literals III</h3>
-                <div class="badge-container">
-                    <span class="badge es6"></span>
-                </div>
-                <pre>
-                    <code class="hljs javascript" data-trim contenteditable data-noescape>
-                        let x;
-                        `The value is: ${x ? x : 'not defined'}!`;
-                        <span class="fragment">// The value is: not defined!</span>
-
-                        x = 'test';
-                        `The value is: ${x ? x : 'not defined'}`;
-                        <span class="fragment">// The value is: test!</span>
-                    </code>
-                </pre>
-            </section>
-            <section>
-                <h2>Strings</h2>
-                <h3>Useful Functions</h3>
-                <ul>
-                    <li><span class="code">substring()</span></li>
-                    <li><span class="code">toLowerCase()</span> & <span class="code">toUpperCase()</span></li>
-                    <li><span class="code">startsWith()</span> & <span class="code">endsWith()</span></li>
-                    <li>etc.</li>
-                </ul>
-                <p>See <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"
-                          target="_blank">here</a> for a complete list.</p>
-            </section>
-        </section>
+        <!-- 05 Questions -->
         <section class="deck-slide">
             <h1>Questions?</h1>
         </section>
