@@ -26,9 +26,141 @@
 <div class="reveal">
     <div class="slides">
         <section class="deck-slide">
-            <h1>React Essentials<br>06 Registration Form</h1>
+            <h1>React Essentials<br>07 Optimizing</h1>
         </section>
-        <section></section>
+
+        <!-- 01 Code Splitting & Suspense -->
+        <section>
+            <section>
+                <h2>Code Splitting & Suspense</h2>
+                <p>Bundlers like Webpack combine all of the modules into one file.</p>
+                <p>To avoid ending up with a large bundle (= long loading time) can create multiple bundles that can be dynamically loaded at runtime.</p>
+                <p>You can “lazy-load” just the things that are currently needed by the user.</p>
+            </section>
+            <section>
+                <h2>import() and React.lazy</h2>
+                <p>Before: </p>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        const PokeQuiz = import('../../pages/pokeQuiz/PokeQuiz');
+                    </code>
+                </pre>
+                <p>After: </p>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        const PokeQuiz = lazy(() => import('../../pages/pokeQuiz/PokeQuiz'));
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Suspense</h2>
+                <p>While the bundle is loading we need to render something. This is where <span class="warn">Suspense</span> comes in.</p>
+            </section>
+            <section>
+                <h2>The loading state</h2>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        &lt;Route exact path={ROUTES.QUIZ}&gt;
+                            &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+                                &lt;PokeQuiz /&gt;
+                            &lt;/Suspense&gt;
+                        &lt;/Route&gt;
+                    </code>
+                </pre>
+                <p>This can be toggled using the React Dev Tools</p>
+            </section>
+            <section>
+                <h2>Current limitations</h2>
+                <p>React.lazy and Suspense are not yet available for server-side rendering. If this is a requirement you can use <a href="https://loadable-components.com" target="_blank">Loadable Components</a></p>
+                <p>React.lazy currently only supports default exports. You can create an intermediate module that reexports it as the default. This way tree shaking keeps working</p>
+            </section>
+            <section>
+                <h2>Catching Errors</h2>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        const PokeQuiz = lazy(() => Promise.reject());
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <!--
+                    Note: this will also catch errors from the API
+                -->
+                <h2>Error Boundaries</h2>
+                <p>A quick note on class Components</p>
+                <p>Lets check out what the React Docs say about this: <a href="https://reactjs.org/docs/error-boundaries.html" target="_blank">Error Boundaries</a></p>
+            </section>
+            <section>
+                <h2>Recap</h2>
+                <ul>
+                    <li>Import is just a fancy Promise.</li>
+                    <li>It can have 3 statuses: pending, rejected, resolved</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Rejected</h3>
+                <p>This renders the error boundary component</p>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        const PokeQuiz = lazy(() => Promise.reject());
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h3>Pending</h3>
+                <p>This renders the fallback component of the suspense boundary</p>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        const PokeQuiz = lazy(
+                          () =>
+                            new Promise(resolve =>
+                              setTimeout(resolve, 1000),
+                            ),
+                        );
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h3>Resolved</h3>
+                <p>This renders the actual component</p>
+                <pre>
+                    <code class="hljs javascript" data-trim contenteditable data-noescape>
+                        const PokeQuiz = lazy(
+                         () =>
+                          new Promise&lt;{default: FC}&gt;(resolve =>
+                            setTimeout(
+                             () => resolve({ default: () => &lt;p&gt;Poke Quiz&lt;/p&gt; }),
+                             1000
+                            ),
+                          ),
+                        );
+                    </code>
+                </pre>
+            </section>
+        </section>
+        <!--
+            Exercise:
+            - split the main bundle into multiple chunks
+            - validate that it is working by building the app / network tab
+            - create the loading Component
+            - create an Error Boundary Component
+        -->
+
+        <!-- 02 Concurrent Mode -->
+        <section>
+            <section>
+                <h2>Concurrent Mode</h2>
+            </section>
+        </section>
+        <!--
+            Note:
+
+            Exercise:
+        -->
+
+
+
+        <!-- 03 Questions -->
         <section class="deck-slide">
             <h1>Questions?</h1>
         </section>
